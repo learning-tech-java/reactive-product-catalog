@@ -1,3 +1,7 @@
 spring:
   application:
     name: reactive-product-catalog
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/reactiveproductcatalog
+    username: postgres
+    password: postgres
