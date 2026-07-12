@@ -17,4 +17,6 @@ public interface ProductService {
 
     Mono<Void> deleteById(UUID id);
 
+    Mono<Product> update(UUID id, CreateProductRequest request);
+
 }

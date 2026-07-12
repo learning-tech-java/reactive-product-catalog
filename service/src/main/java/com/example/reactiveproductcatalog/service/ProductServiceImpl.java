@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findById(id)
                 .switchIfEmpty(
-                        Mono.error(new ProductNotFoundException())
+                        Mono.error(new ProductNotFoundException(id))
                 )
                 .map(productMapper::toProduct);
 
@@ -50,6 +50,14 @@ public class ProductServiceImpl implements ProductService {
     public Mono<Void> deleteById(UUID id) {
 
         return productRepository.deleteById(id);
+
+    }
+
+    @Override
+    public Mono<Product> update(UUID id, CreateProductRequest request) {
+
+        return productRepository.save(productMapper.toEntity(id, request.getProduct()))
+                .map(productMapper::toProduct);
 
     }
 
