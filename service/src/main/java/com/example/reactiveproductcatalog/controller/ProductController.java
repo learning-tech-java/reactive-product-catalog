@@ -2,6 +2,7 @@ package com.example.reactiveproductcatalog.controller;
 
 import com.example.reactiveproductcatalog.common.Product;
 import com.example.reactiveproductcatalog.request.CreateProductRequest;
+import com.example.reactiveproductcatalog.request.UpdateProductRequest;
 import com.example.reactiveproductcatalog.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,14 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Product> create(@Valid @RequestBody CreateProductRequest request) {
+
+        return productService.create(request);
+
+    }
+
+    @GetMapping("/{code}")
+    public Mono<Product> findByCode(@PathVariable String code) {
+
+        return productService.findByCode(code);
+
+    }
 
     @GetMapping
     public Flux<Product> findAll() {
@@ -26,46 +40,19 @@ public class ProductController {
 
     }
 
-    @GetMapping("/{id}")
-    public Mono<Product> findById(
-            @PathVariable UUID id
-    ) {
+    @PutMapping("/{code}")
+    public Mono<Product> update(@PathVariable String code, @Valid @RequestBody UpdateProductRequest request) {
 
-        return productService.findById(id);
+        return productService.updateByCode(code, request);
 
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Product> create(
-            @Valid
-            @RequestBody
-            CreateProductRequest request
-    ) {
-
-        return productService.create(request);
-
-    }
-
-    @PutMapping("/{id}")
-    public Mono<Product> update(
-            @PathVariable UUID id,
-            @Valid
-            @RequestBody
-            CreateProductRequest request
-    ) {
-
-        return productService.update(id, request);
-
-    }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{code}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> delete(
-            @PathVariable UUID id
-    ) {
+    public Mono<Void> delete(@PathVariable String code) {
 
-        return productService.deleteById(id);
+        return productService.deleteByCode(code);
 
     }
+
 }

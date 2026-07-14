@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 public record Product(
 
         @NotBlank
+        String code,
+
+        @NotBlank
         String name,
 
         @Positive

@@ -20,6 +20,12 @@ public class ProductEntity {
     private UUID id;
 
     /**
+     * Код товара
+     */
+    @Column("code")
+    private String code;
+
+    /**
      * Наименование товара
      */
     @Column("name")

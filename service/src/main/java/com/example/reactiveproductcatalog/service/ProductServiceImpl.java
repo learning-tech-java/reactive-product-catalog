@@ -5,12 +5,11 @@ import com.example.reactiveproductcatalog.exception.ProductNotFoundException;
 import com.example.reactiveproductcatalog.mapper.ProductMapper;
 import com.example.reactiveproductcatalog.repository.ProductRepository;
 import com.example.reactiveproductcatalog.request.CreateProductRequest;
+import com.example.reactiveproductcatalog.request.UpdateProductRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +19,19 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public Mono<Product> findById(UUID id) {
+    public Mono<Product> create(CreateProductRequest request) {
 
-        return productRepository.findById(id)
+        return productRepository.save(productMapper.toEntity(request.getProduct()))
+                .map(productMapper::toProduct);
+
+    }
+
+    @Override
+    public Mono<Product> findByCode(String code) {
+
+        return productRepository.findByCode(code)
                 .switchIfEmpty(
-                        Mono.error(new ProductNotFoundException(id))
+                        Mono.error(new ProductNotFoundException(code))
                 )
                 .map(productMapper::toProduct);
 
@@ -39,25 +46,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<Product> create(CreateProductRequest request) {
+    public Mono<Product> updateByCode(String code, UpdateProductRequest request) {
 
-        return productRepository.save(productMapper.toEntity(request.getProduct()))
+        return productRepository.findByCode(code)
+                .switchIfEmpty(
+                        Mono.error(new ProductNotFoundException(code))
+                )
+                .map(productEntity -> productMapper.merge(request.getProduct(), productEntity))
+                .flatMap(productRepository::save)
                 .map(productMapper::toProduct);
 
     }
 
     @Override
-    public Mono<Void> deleteById(UUID id) {
+    public Mono<Void> deleteByCode(String code) {
 
-        return productRepository.deleteById(id);
-
-    }
-
-    @Override
-    public Mono<Product> update(UUID id, CreateProductRequest request) {
-
-        return productRepository.save(productMapper.toEntity(id, request.getProduct()))
-                .map(productMapper::toProduct);
+        return productRepository.deleteByCode(code);
 
     }
 
