@@ -1,7 +1,15 @@
 spring:
   application:
     name: reactive-product-catalog
+  server:
+    port: ${SERVER_PORT}
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/reactiveproductcatalog
-    username: postgres
-    password: postgres
+    url: r2dbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+
+client:
+  reactive-rating-service:
+    baseUrl: ${REACTIVE_RATING_SERVICE_URL}
+    timeout: ${REACTIVE_RATING_SERVICE_TIMEOUT}
+    numRetries: ${REACTIVE_RATING_SERVICE_RETRIES_NUMBER}

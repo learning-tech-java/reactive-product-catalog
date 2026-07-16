@@ -1,6 +1,7 @@
 package com.example.reactiveproductcatalog.controller;
 
 import com.example.reactiveproductcatalog.common.Product;
+import com.example.reactiveproductcatalog.common.ProductDetails;
 import com.example.reactiveproductcatalog.request.CreateProductRequest;
 import com.example.reactiveproductcatalog.request.UpdateProductRequest;
 import com.example.reactiveproductcatalog.service.ProductService;
@@ -30,6 +31,13 @@ public class ProductController {
     public Mono<Product> findByCode(@PathVariable String code) {
 
         return productService.findByCode(code);
+
+    }
+
+    @GetMapping("/details/{code}")
+    public Mono<ProductDetails> findDetailsByCode(@PathVariable String code) {
+
+        return productService.findDetailsByCode(code);
 
     }
 

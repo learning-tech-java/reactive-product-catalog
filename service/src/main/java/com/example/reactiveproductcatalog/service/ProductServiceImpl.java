@@ -1,11 +1,14 @@
 package com.example.reactiveproductcatalog.service;
 
 import com.example.reactiveproductcatalog.common.Product;
+import com.example.reactiveproductcatalog.common.ProductDetails;
 import com.example.reactiveproductcatalog.exception.ProductNotFoundException;
 import com.example.reactiveproductcatalog.mapper.ProductMapper;
 import com.example.reactiveproductcatalog.repository.ProductRepository;
 import com.example.reactiveproductcatalog.request.CreateProductRequest;
 import com.example.reactiveproductcatalog.request.UpdateProductRequest;
+import com.example.reactiveratingservice.common.Rating;
+import com.example.reactiveratingservice.service.RatingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -17,6 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final RatingService ratingService;
 
     @Override
     public Mono<Product> create(CreateProductRequest request) {
@@ -34,6 +38,19 @@ public class ProductServiceImpl implements ProductService {
                         Mono.error(new ProductNotFoundException(code))
                 )
                 .map(productMapper::toProduct);
+
+    }
+
+    @Override
+    public Mono<ProductDetails> findDetailsByCode(String code) {
+
+        Mono<Product> product = findByCode(code);
+        Mono<Rating> rating = ratingService.getRatingByCode(code);
+
+        return Mono.zip(
+                        product,
+                        rating)
+                .map(tuple -> productMapper.toProductDetails(tuple.getT1(), tuple.getT2().value()));
 
     }
 
