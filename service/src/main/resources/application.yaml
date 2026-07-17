@@ -1,12 +1,19 @@
+server:
+  port: ${SERVER_PORT}
+
 spring:
   application:
     name: reactive-product-catalog
-  server:
-    port: ${SERVER_PORT}
+  flyway:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    user: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   r2dbc:
     url: r2dbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
+    properties:
+      schema: reactive_product_service
 
 client:
   reactive-rating-service:

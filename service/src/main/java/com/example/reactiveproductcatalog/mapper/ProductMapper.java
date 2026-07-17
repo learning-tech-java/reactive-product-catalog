@@ -4,7 +4,6 @@ import com.example.reactiveproductcatalog.common.Product;
 import com.example.reactiveproductcatalog.common.ProductDetails;
 import com.example.reactiveproductcatalog.config.MapStructConfig;
 import com.example.reactiveproductcatalog.entity.ProductEntity;
-import com.example.reactiveratingservice.common.Rating;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -14,6 +13,7 @@ public interface ProductMapper {
 
     Product toProduct(ProductEntity productEntity);
 
+    @Mapping(target = "id", ignore = true)
     ProductEntity toEntity(Product product);
 
     @Mapping(target = "id", ignore = true)
