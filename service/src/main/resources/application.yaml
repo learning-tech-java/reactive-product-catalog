@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: reactive-product-catalog
+    name: reactive-product-service
   flyway:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     user: ${POSTGRES_USERNAME}

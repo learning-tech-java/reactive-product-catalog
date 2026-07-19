@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>reactive-product-catalog</artifactId>
+    <artifactId>reactive-product-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>reactive-product-catalog</name>
-    <description>reactive-product-catalog</description>
+    <name>reactive-product-service</name>
+    <description>reactive-product-service</description>
     <url/>
     <licenses>
         <license/>
@@ -35,6 +35,7 @@
     <modules>
         <module>model</module>
         <module>service</module>
+        <module>client</module>
     </modules>
 
 </project>

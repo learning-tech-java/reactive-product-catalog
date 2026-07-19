@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.example</groupId>
-        <artifactId>reactive-product-catalog</artifactId>
+        <artifactId>reactive-product-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>reactive-product-catalog-service</artifactId>
-    <name>reactive-product-catalog-service</name>
-    <description>reactive-product-catalog-service</description>
+    <artifactId>reactive-product-service-service</artifactId>
+    <name>reactive-product-service-service</name>
+    <description>reactive-product-service-service</description>
 
     <dependencies>
         <dependency>
@@ -72,7 +72,7 @@
 
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>reactive-product-catalog-model</artifactId>
+            <artifactId>reactive-product-service-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
